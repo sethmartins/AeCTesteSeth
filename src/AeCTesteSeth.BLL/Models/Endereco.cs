@@ -17,7 +17,7 @@ namespace AeCTesteSeth.BLL.Models
         public required string Cidade { get; set; }
         public required string Uf { get; set; }
         public required string Numero { get; set; }
-        public required Usuario Usuario { get; set; }
+        public  Usuario Usuario { get; set; }
         public required int UsuarioId { get; set; }
 
     }

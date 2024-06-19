@@ -4,5 +4,6 @@ namespace AeCTesteSeth.DOMAIN.DAL.Interfaces
 {
     public interface IUsuarioRepository : IGenericRepository<Usuario>
     {
+         Usuario Get(int id);
     }
 }

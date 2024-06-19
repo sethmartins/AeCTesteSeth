@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="text/javascript" src="js/site.js"></script>
+  <link rel="stylesheet" href="css/endereco.css" />
+  <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <title>Endereço</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Addresses</h1>
+    <form id="addressForm">
+      <input type="hidden" id="Id">
+      <div>
+        <label for="cep">Cep</label>
+        <input type="text" id="cep" required>
+      </div>
+
+      <div>
+        <label for="logradouro">Rua</label>
+        <input type="text" id="logradouro" required>
+      </div>
+      <div>
+        <label for="bairro">Bairro</label>
+        <input type="text" id="bairro" required>
+      </div>
+      <div>
+        <label for="cidade">Cidade</label>
+        <input type="text" id="cidade" required>
+      </div>
+      <div>
+        <label for="uf">Uf</label>
+        <input type="text" id="uf" required>
+      </div>
+      <div>
+        <label for="complemento">Complemento</label>
+        <input type="text" id="complemento">
+      </div>
+      <div>
+        <label for="numero">Numero</label>
+        <input type="text" id="numero" required>
+      </div>
+
+      <button type="submit">Save</button>
+      <button type="button" id="exportarCsv">Exportar CSV</button>
+    </form>
+    <h2>Endereços</h2>
+    <table id="addressesTable">
+      <thead>
+        <tr>
+
+          <th>Rua</th>
+          <th>Numero</th>
+          <th>Cep</th>
+          <th>Complemento</th>
+          <th>Bairro</th>
+          <th>Cidade</th>
+          <th>Uf</th>
+          <th>Actions</th>
+         
+
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Addresses will be populated here -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

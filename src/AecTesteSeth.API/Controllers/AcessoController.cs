@@ -3,27 +3,28 @@ using AeCTesteSeth.DAL.Context;
 using AeCTesteSeth.DOMAIN.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace AeCTesteSeth.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AcessoController : ControllerBase
+    
+    public class AcessoController : Controller
     {
         private IConfiguration _config;
-        private readonly IUnitOfWork _unitOfWork;
-        public AcessoController(IConfiguration Configuration, IUnitOfWork unitOfWork)
+        private readonly MyContext _myContext;
+        public AcessoController(IConfiguration Configuration, MyContext myContext)
         {
             _config = Configuration;
-            _unitOfWork = unitOfWork;
+            _myContext = myContext;
         }
-
-        [HttpPost]
-        public IActionResult Login([FromBody] Login login, [FromServices] MyContext context)
+        
+        [HttpPost("Login")]       
+        public IActionResult Login([FromBody]Login login)
         {
-            bool resultado = Validar(login,context);
+            
+            bool resultado = Validar(login.Usuario,login.Senha);
             if (resultado)
             {
                 var tokenString = GerarTokenJWT();
@@ -51,10 +52,10 @@ expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
             return stringToken;
         }
 
-        private bool Validar(Login login,MyContext context)
+        private bool Validar(string usuario, string senha)
         {
-          var user =  context.Usuarios.Where(x => x.Usuario_ == login.Usuario && x.Senha == login.Senha).First();
-            
+            var user = _myContext.Usuarios.Where(x => x.Usuario_ == usuario && x.Senha == senha)?.First();
+
             if (user != null)
             {
                 return true;
@@ -64,5 +65,7 @@ expires: DateTime.Now.AddMinutes(120), signingCredentials: credentials);
                 return false;
             }
         }
+
+
     }
 }

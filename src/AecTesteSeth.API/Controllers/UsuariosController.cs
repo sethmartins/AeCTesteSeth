@@ -16,16 +16,16 @@ namespace AeCTesteSeth.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Usuario>> GetUsuarios()
+        public  IEnumerable<Usuario> GetUsuarios()
         {
-            var resultado = await _unitOfWork.UsuarioRepository.GetAll();
-            return resultado;
+            return  _unitOfWork.UsuarioRepository.GetAll();
+           // return resultado;
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Usuario>> GetUsuario(int id)
+        public  ActionResult<Usuario> GetUsuario(int id)
         {
-            var Usuario = await _unitOfWork.UsuarioRepository.Get(id);
+            var Usuario =  _unitOfWork.UsuarioRepository.Get(id);
 
             if (Usuario == null)
             {
@@ -36,14 +36,14 @@ namespace AeCTesteSeth.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuario(int id, Usuario Usuario)
+        public  IActionResult PutUsuario(int id, Usuario Usuario)
         {
             if (id != Usuario.Id)
             {
                 return BadRequest();
             }
 
-            var result = await _unitOfWork.UsuarioRepository.Get(id);
+            var result =  _unitOfWork.UsuarioRepository.Get(id);
 
             if (result == null)
                 BadRequest();
@@ -57,19 +57,19 @@ namespace AeCTesteSeth.API.Controllers
             return Ok();
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Usuario>> PostUsuario(Usuario Usuario)
+        [HttpPost("adicionar")]
+        public  ActionResult<Usuario> PostUsuario(Usuario Usuario)
         {
-            await _unitOfWork.UsuarioRepository.Add(Usuario);
+             _unitOfWork.UsuarioRepository.Add(Usuario);
             _unitOfWork.Commit();
 
-            return CreatedAtAction("GetUsuario", new { id = Usuario.Id }, Usuario);
+            return Ok(new { message = "Salvo com sucesso" });
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUsuario(int id)
+        public  IActionResult DeleteUsuario(int id)
         {
-            var Usuario = await _unitOfWork.UsuarioRepository.Get(id);
+            var Usuario =  _unitOfWork.UsuarioRepository.Get(id);
             if (Usuario == null)
             {
                 return NotFound();

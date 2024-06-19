@@ -1,5 +1,5 @@
 ﻿using AeCTesteSeth.BLL.Models;
-using AeCTesteSeth.API.Controllers;
+
 using AeCTesteSeth.DOMAIN.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -46,7 +46,7 @@ namespace AeCTesteSeth.Test.Repository
             
            
                 UsuarioRepository usuarioRepository = new UsuarioRepository(context);
-                var usuarios = usuarioRepository.GetAll().Result.ToList();                
+                var usuarios = usuarioRepository.GetAll().ToList();                
                 
                 //Assert
                 Assert.Equal(count + 2, usuarios.Count);
@@ -76,7 +76,7 @@ namespace AeCTesteSeth.Test.Repository
                 UsuarioRepository usuarioRepository = new UsuarioRepository(context);
                 var usuario = usuarioRepository.Get(1);
                 //Assert
-                Assert.Equal("User1", usuario.Result.Nome);
+                Assert.Equal("User1", usuario.Nome);
                 //return  _context.Set<T>().FindAsync(id);
             }
             
@@ -105,7 +105,7 @@ namespace AeCTesteSeth.Test.Repository
                 usuarioRepository.Add(new Usuario() { Id = 3, Nome = "User3", Senha = "654321", Usuario_ = "seth", Enderecos=null });
                 var usuario = usuarioRepository.Get(3);
                 //Assert
-                Assert.Equal("User3", usuario.Result.Nome);
+                Assert.Equal("User3", usuario.Nome);
 
             }
         }
@@ -136,10 +136,10 @@ namespace AeCTesteSeth.Test.Repository
                     UsuarioRepository usuarioRepository = new UsuarioRepository(context);
                     int lastuser = context.Usuarios.Last().Id;
                     
-                    var userdeleted = usuarioRepository.Get(lastuser).Result;
+                    var userdeleted = usuarioRepository.Get(lastuser);
                     usuarioRepository.Delete(userdeleted);
                     context.SaveChanges();
-                    var usuario = usuarioRepository.GetAll().Result.Last();
+                    var usuario = usuarioRepository.GetAll().Last();
 
                     //Assert
                    Assert.False(lastuser == usuario.Id); ;
@@ -168,7 +168,7 @@ namespace AeCTesteSeth.Test.Repository
                 var userupdated = new Usuario() { Nome = "User3", Senha = "654321", Usuario_ = "seth" };
                 usuarioRepository.Update(userupdated);
                 context.SaveChanges();
-                var usuario = usuarioRepository.GetAll().Result.Last();
+                var usuario = usuarioRepository.GetAll().Last();
                 //Assert
                 Assert.Equal("User3", usuario.Nome);
             } 

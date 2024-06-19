@@ -13,12 +13,17 @@ namespace AeCTesteSeth.DAL.Dependency_Injection
         public static IServiceCollection AddDALServices(this IServiceCollection services,
            IConfiguration configuration)
         {
-            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
-            services.AddTransient<IEnderecoRepository, EnderecoRepository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IEnderecoRepository, EnderecoRepository>();
+            //services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            //services.AddTransient<IEnderecoRepository, EnderecoRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddDbContext<MyContext>(opt => opt
-                .UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<MyContext>(opt => { opt
+                .UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+                opt.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking); 
+            });              
 
             return services;
         }

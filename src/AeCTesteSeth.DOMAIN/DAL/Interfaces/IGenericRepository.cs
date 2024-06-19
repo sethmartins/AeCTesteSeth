@@ -8,9 +8,9 @@ namespace AeCTesteSeth.DOMAIN.DAL.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T> Get(int id);
-        Task<IEnumerable<T>> GetAll();
-        Task Add(T entity);
+        T Get(int id);
+        IEnumerable<T> GetAll();
+         void Add(T entity);
         void Delete(T entity);
         void Update(T entity);
     }

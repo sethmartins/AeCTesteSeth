@@ -7,7 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Components.Web;
+//using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 namespace AeCTesteSeth.API
 {
     public class Program
@@ -21,6 +22,7 @@ namespace AeCTesteSeth.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.UseContentRoot("Views");
                     webBuilder.UseStartup<Startup>();
                 });
     }

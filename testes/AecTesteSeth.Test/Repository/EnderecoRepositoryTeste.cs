@@ -1,5 +1,5 @@
 ﻿using AeCTesteSeth.BLL.Models;
-using AeCTesteSeth.API.Controllers;
+
 using AeCTesteSeth.DOMAIN.DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -46,7 +46,7 @@ namespace AeCTesteSeth.Test.Repository
             
            
                 EnderecoRepository enderecoRepository = new EnderecoRepository(context);
-                var enderecos = enderecoRepository.GetAll().Result.ToList();                
+                var enderecos = enderecoRepository.GetAll().ToList();                
                 
                 //Assert
                 Assert.Equal(count + 2, enderecos.Count);
@@ -77,10 +77,10 @@ namespace AeCTesteSeth.Test.Repository
                 context.SaveChanges();
                 //Act
                 EnderecoRepository enderecoRepository = new EnderecoRepository(context);
-                var addresslast = enderecoRepository.GetAll().Result.Last();
+                var addresslast = enderecoRepository.GetAll().Last();
                 var endereco = enderecoRepository.Get(addresslast.Id);
                 //Assert
-                Assert.Equal(addresslast.Id, endereco.Result.Id);
+                Assert.Equal(addresslast.Id, endereco.Id);
                 //return  _context.Set<T>().FindAsync(id);
             }
             
@@ -124,7 +124,7 @@ namespace AeCTesteSeth.Test.Repository
                 };
                  enderecoRepository.Add(endereco1);
                 context.SaveChanges();
-                var endereco = enderecoRepository.GetAll().Result.Last();
+                var endereco = enderecoRepository.GetAll().Last();
                 //Assert
                 Assert.Equal("rua 1", endereco.Logradouro);
 
@@ -152,13 +152,13 @@ namespace AeCTesteSeth.Test.Repository
                     }
                     //Act
                     EnderecoRepository enderecoRepository = new EnderecoRepository(context);
-                    int countendereco = enderecoRepository.GetAll().Result.Count();
-                   Endereco lastendereco = enderecoRepository.GetAll().Result.Last();
+                    int countendereco = enderecoRepository.GetAll().Count();
+                   Endereco lastendereco = enderecoRepository.GetAll().Last();
                 //var addressdeleted = enderecoRepository.Get(lastendereco).Result;
                     enderecoRepository.Delete(lastendereco);
                     
                     context.SaveChanges();
-                    var endereco = enderecoRepository.GetAll().Result.Count();
+                    var endereco = enderecoRepository.GetAll().Count();
 
                     //Assert
                    Assert.False(countendereco == endereco); ;
@@ -187,13 +187,13 @@ namespace AeCTesteSeth.Test.Repository
                 //Act
                 
                 EnderecoRepository enderecoRepository = new EnderecoRepository(context);
-                var result =  enderecoRepository.GetAll().Result.ToList();
+                var result =  enderecoRepository.GetAll().ToList();
                 var firstAdress = result.First();
                 firstAdress.Bairro =  "Bessa";
                 
                 enderecoRepository.Update(firstAdress);
                 context.SaveChanges();
-                var endereco = enderecoRepository.Get(firstAdress.Id).Result;
+                var endereco = enderecoRepository.Get(firstAdress.Id);
                 //Assert
                 Assert.Equal("Bessa", endereco.Bairro);
             } 

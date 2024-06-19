@@ -9,7 +9,16 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-
+using Microsoft.EntityFrameworkCore;
+using AeCTesteSeth.API.Data;
+using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
+using Microsoft.AspNetCore.Components.Web;
+//using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using AeCTesteSeth.BLL.Models;
+using AeCTesteSeth.DAL.Context;
+using AeCTesteSeth.API.Controllers;
 
 namespace AecTesteSeth.API
 {
@@ -17,6 +26,7 @@ namespace AecTesteSeth.API
     {
         public Startup(IConfiguration configuration)
         {
+           // configuration.root
             Configuration = configuration;
         }
 
@@ -25,8 +35,17 @@ namespace AecTesteSeth.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc( v => v.EnableEndpointRouting = false);
             services.AddDALServices(Configuration);
+           
             services.AddControllers();
+          
+           
+            services.AddMudServices();
+
+           
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AeCTesteSeth.API", Version = "v1" });
@@ -49,18 +68,16 @@ namespace AecTesteSeth.API
                        (Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                      };
                  });
+            services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AeCTesteSeth.API v1"));
-            }
 
+            
+            app.UseFileServer();
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -69,10 +86,37 @@ namespace AecTesteSeth.API
 
             app.UseAuthentication();
 
-            app.UseEndpoints(endpoints =>
+            if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                
+                app.UseSwaggerUI(c => 
+                { 
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AeCTesteSeth.API v1");
+                    c.RoutePrefix = "endpoints";
+                });
+            }
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            
+            
+            //app.MapGet();
+            app.UseEndpoints(endpoints =>
+            {          
+               
                 endpoints.MapControllers();
+          
             });
-        }
+
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Login}/{action=Index}/{id?}");
+            //});
+
+
+        }     
     }
 }

@@ -14,6 +14,7 @@ namespace AeCTesteSeth.BLL.Models
         {
             Enderecos = new List<Endereco>();
         }
+       // public int Id { get; set; }
         public string Nome { get; set; }
         public required string Usuario_ { get; set; }
 

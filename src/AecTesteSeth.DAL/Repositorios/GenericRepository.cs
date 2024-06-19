@@ -1,6 +1,7 @@
 ﻿using AeCTesteSeth.DAL.Context;
 using AeCTesteSeth.DOMAIN.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
+//using System.Data.Entity;
 
 namespace AeCTesteSeth.DAL.Repositorios
 {
@@ -13,19 +14,19 @@ namespace AeCTesteSeth.DAL.Repositorios
             _context = context;
         }
 
-        public async Task<T> Get(int id)
+        public  T Get(int id)
         {
-            return await _context.Set<T>().FindAsync(id);
+            return  _context.Set<T>().Find(id);
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public  IEnumerable<T> GetAll()
         {
-            return await _context.Set<T>().ToListAsync();
+            return  _context.Set<T>().ToList();
         }
 
-        public async Task Add(T entity)
+        public  void Add(T entity)
         {
-            await _context.Set<T>().AddAsync(entity);
+             _context.Set<T>().Add(entity);
         }
 
         public void Delete(T entity)
